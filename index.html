@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mario or something </title>
+    <!-- <script src="game.js"></script> -->
+    <script type="module">
+        // import kaboom lib
+        import kaboom from "https://unpkg.com/kaboom@next/dist/kaboom.mjs";
+        // initialize kaboom context
+        kaboom();
+
+        // load assets
+        /* Link of mine */
+        loadSprite("link", " http://127.0.0.1:8080/Sprites/link.png");
+        /* and my blocks */
+        loadSprite("sunnyBlock", " http://127.0.0.1:8080/Sprites/block2.png");
+        /* and the enemi */
+        loadSprite('enemi', 'http://127.0.0.1:8080/Sprites/enemi.png')
+        
+        // add Link to the game
+        const player = add([
+            sprite('link'),
+            scale(.15),
+            pos(100,200),
+            body(), 
+            area(),
+            solid(),
+            'player'
+        ]);
+
+        /* CONTROLS */
+        // jump when player presses "space" key
+        keyPress("space", () => {
+            // .jump() is provided by the body() component
+            player.jump();
+        });
+        const mov = 1500;
+        // jump when player presses "space" key
+        keyPress("right", () => {
+            // .jump() is provided by the body() component
+            player.move(mov, 0);
+        });
+        keyPress("left", () => {
+            // .jump() is provided by the body() component
+            player.move(-mov, 0);
+        });
+        
+        /* Let's try now to create our LEVEL */
+        addLevel([ // MapLevel as an array
+            '                                                                              ',
+            '                                      E                                       ',
+            '                                                                              ',
+            '                                                                              ',
+            '                                                                              ',
+            '                                                                              ',
+            '                                                                              ',
+            '                                                                              ',
+            '                                                                              ',
+            '                                                                              ',
+            '                                                                              ',
+            '                                                                              ',
+            '                                                                              ',
+            '                                                                              ',
+            '                                                                              ',
+            'x x x x x x x x x x x x x x x x x x x x x     x x x     x x   x x   x x   x x ',    
+            'x x x x x x x x x x x x x x x x x x x x x     x x x     x x   x x   x x   x x ',  
+        ],{  // Config as an Object
+            width: 16,
+            height: 32,
+            'x': () => [
+                sprite('sunnyBlock'),
+                area(),
+                solid(),
+            ],
+            width: 16,
+            height: 32,
+            'E': () => [
+                sprite('enemi'),
+                area(),
+                solid(),
+                body(),
+                'enemi'
+            ]
+
+        });
+
+        /* MECHANICS */
+        collides("enemi", "player", () => {
+            destroy(player);
+        });
+
+    </script>
+
+</head>
+<body>
+
+</body>
+</html>
